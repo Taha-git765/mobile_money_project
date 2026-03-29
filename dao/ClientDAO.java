@@ -48,5 +48,24 @@ public class ClientDAO {
             System.out.println(e.getMessage());
         }
     }
+
+    public List<Client> getAllClients() throws SQLException{
+        List<Client> clients = new ArrayList<>();
+        String requete = "SELECT * FROM clients";
+        try(Connection conn = db_connection.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(requete)){
+                while (rs.next()) {
+                    Client client = new Client();
+                    client.setId(rs.getInt("id"));
+                    client.setNom(rs.getString("Nom"));
+                    client.setPrenom(rs.getString("Prenom"));
+                    client.setNumero_tel(rs.getString("Numero_tel"));
+                    client.setAdresse(rs.getString("Adresse"));
+                    clients.add(client);
+                }
+            }
+        return clients;
+    }
     
 }
